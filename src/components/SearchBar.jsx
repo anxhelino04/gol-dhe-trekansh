@@ -1,8 +1,13 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import React from "react";
+import background from "./pics/globe.png";
+import { Card } from "antd";
+import { Input } from "antd";
 import "../App.css";
 import norslt from "./pics/notresult.png";
 const SearchBar = () => {
+  const { Search } = Input;
   const [searchtxt, setSearchtxt] = useState("");
   const [loading, setLoading] = useState(false);
   const SearchHandler = (event) => {
@@ -32,30 +37,44 @@ const SearchBar = () => {
 
   return (
     <div>
-      <input
-        className="searchbar"
-        onChange={SearchHandler}
+      <img
+        style={{ width: "13em", margin: "1em 0em" }}
+        src={background}
+        alt="ijhkjfhxfu"
+      ></img>
+      <Search
+        placeholder="input search text"
+        enterButton="Search"
+        size="large"
+        loading
         value={searchtxt}
-        type="text"
-        placeholder="Search..."
-      ></input>
-
+        onChange={SearchHandler}
+        style={{ padding: " 0em 18em", margin: " 0em 0em 2em 0em" }}
+      />
       {searchtxt?.length > 3 && !loading
         ? results?.map((result, index) => {
             return (
-              <div key={index} className="container">
-                <div className="containerr">
-                  <h3 className="title">{result?.title}</h3>
-                  <p
-                    className="content"
-                    dangerouslySetInnerHTML={{ __html: result?.snippet }}
-                  ></p>
-                  <a
-                    className="link"
-                    href={`https://en.wikipedia.org/wiki/${result?.title}`}
+              <div key={index}>
+                <div style={{ padding: " 0em 14em" }}>
+                  <Card
+                    style={{
+                      marginTop: 16,
+                      border: "none",
+                    }}
+                    type="inner"
+                    title={result?.title}
+                    extra={
+                      <a
+                        href={`https://en.wikipedia.org/wiki/${result?.title}`}
+                      >
+                        More
+                      </a>
+                    }
                   >
-                    read more...
-                  </a>
+                    <p
+                      dangerouslySetInnerHTML={{ __html: result?.snippet }}
+                    ></p>
+                  </Card>
                 </div>
               </div>
             );
