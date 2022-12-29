@@ -5,7 +5,7 @@ import background from "./pics/globe.png";
 import { Card } from "antd";
 import { Input } from "antd";
 import "../App.css";
-import norslt from "./pics/notresult.png";
+import norslt from "./pics/no-resulttt.png";
 const SearchBar = () => {
   const { Search } = Input;
   const [searchtxt, setSearchtxt] = useState("");
@@ -21,7 +21,6 @@ const SearchBar = () => {
         `https://wikipedia.org/w/api.php?&origin=*&format=json&action=query&list=search&prop=info&inprop=url&utf8=&srlimit=5&srsearch=${searchtxt}`
       )
       .then((response) => {
-        console.log(response?.data?.query?.search, "gol");
         if (searchtxt?.length > 3) {
           setLoading(true);
           setResults(response?.data?.query?.search);
@@ -29,7 +28,7 @@ const SearchBar = () => {
           setLoading(false);
         }
       })
-      .catch((err) => console.log(err, "jogol"));
+      .catch((err) => console.log(err));
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -43,13 +42,13 @@ const SearchBar = () => {
         alt="ijhkjfhxfu"
       ></img>
       <Search
-        placeholder="input search text"
+        className="searchbar"
+        placeholder="..."
         enterButton="Search"
         size="large"
-        loading
         value={searchtxt}
         onChange={SearchHandler}
-        style={{ padding: " 0em 18em", margin: " 0em 0em 2em 0em" }}
+        id="search"
       />
       {searchtxt?.length > 3 && !loading
         ? results?.map((result, index) => {
@@ -59,15 +58,17 @@ const SearchBar = () => {
                   <Card
                     style={{
                       marginTop: 16,
-                      border: "none",
+                      border: "rgb(75, 132, 255) solid 1px",
                     }}
                     type="inner"
                     title={result?.title}
                     extra={
                       <a
+                        className="more"
+                        style={{ color: "#1677FF" }}
                         href={`https://en.wikipedia.org/wiki/${result?.title}`}
                       >
-                        More
+                        More...
                       </a>
                     }
                   >
@@ -86,9 +87,13 @@ const SearchBar = () => {
             </div>
           )}
       {results?.length === 0 && searchtxt.length > 3 && !loading ? (
-        <div>
+        <div style={{ display: "flex", padding: "0em 20em" }}>
           <h4 className="loading">Sorry we couldn't find you any result...</h4>
-          <img style={{ width: "10em" }} src={norslt} alt="sorry no result" />
+          <img
+            style={{ width: "3em", height: "3em", margin: "0.5em 0em 0em 1em" }}
+            src={norslt}
+            alt="sorry no result"
+          />
         </div>
       ) : null}
     </div>
